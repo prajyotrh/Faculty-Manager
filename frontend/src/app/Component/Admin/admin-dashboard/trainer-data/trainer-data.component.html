@@ -1,0 +1,153 @@
+<div class="container-fluid m-0 p-0" style="min-height: 100vh;">
+
+  <!-- heading -->
+  <div class="mt-3 mb-3">
+      <h4 class="text-muted text-warning"> Training Section</h4>
+      <hr>
+  </div>
+
+  <!-- first row -->
+  <div class="row pe-2 mt-3">
+      <div class="col-sm-4 text-center">
+          <a style="text-decoration: none;" >
+              <div class="card shadow">
+                  <div class="card-body">
+                      <h6 class="text-danger">Total Trainings</h6>
+                      <h5>{{trainings.length}}</h5>
+                  </div>
+              </div>
+          </a>
+      </div>
+  </div>
+
+   <!-- second row -->
+   <div class="row pe-2 mt-3">
+    <div class="col-sm-12 text-center">
+      <div>
+        <div class="card shadow">
+          <div class="card-body">
+            <h6 class="text-danger">List of Trainings</h6>
+            <table class="table table-hover border mt-3">
+              <thead>
+                <tr>
+                  <th scope="col">Title of training</th>
+                  <th scope="col">Starting date</th>
+                  <th scope="col">End date</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let t of trainings">
+                  <td>{{t.titleOfTraining}}</td>
+                  <td>{{t.startingDate}}</td>
+                  <td>{{t.endDate}}</td>
+                  <td>
+                      <button type="button" class="btn btn-outline-secondary me-2" (click)="viewTraining(t)" data-bs-toggle="modal" data-bs-target="#viewModal">View</button>
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- View Training -->
+  <div class="modal fade" id="viewModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-danger" id="exampleModalLabel" >Training Details</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+            <div class="row mb-3">
+              <div class="col-12">
+                <p> <span class="h6">Title of Training :</span>  {{trainingDetailsObj.titleOfTraining}}</p>
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <div class="col-6">
+                <p> <span class="h6">Organizing Institute :</span>  {{trainingDetailsObj.orgInstName}}</p>
+              </div>
+              <div class="col-6">
+                <p> <span class="h6">University name : </span>   {{trainingDetailsObj.unversityName}}</p>
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <div class="col-3">
+                <p> <span class="h6">City : </span>  {{trainingDetailsObj.city}}</p>
+              </div>
+              <div class="col-3">
+                <p> <span class="h6">State : </span>  {{trainingDetailsObj.state }}</p>
+              </div>
+              <div class="col-3">
+                <p> <span class="h6">Country : </span>  {{trainingDetailsObj.country }}</p>
+              </div>
+              <div class="col-3">
+                <p> <span class="h6">Pincode : </span>   {{trainingDetailsObj.pincode}}</p>
+              </div>
+            </div>
+
+             <div class="row mb-3">
+              <div class="col-3">
+                <p> <span class="h6">Academic Year  : </span>  {{trainingDetailsObj.academicYear}}</p>
+              </div>
+              <div class="col-3">
+                <p> <span class="h6">Starting date : </span>  {{trainingDetailsObj.startingDate}}</p>
+              </div>
+              <div class="col-3">
+                <p> <span class="h6">End date : </span>  {{trainingDetailsObj.endDate}}</p>
+              </div>
+              <div class="col-3">
+                <p> <span class="h6">Recognized By : </span>  {{trainingDetailsObj.recognizedBy}}</p>
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <div class="col-3">
+                <p> <span class="h6">Mode of training : </span>  {{trainingDetailsObj.mode}}</p>
+              </div>
+              <div class="col-3">
+                <p> <span class="h6">Fees :  </span>  {{trainingDetailsObj.fees}}</p>
+              </div>
+              <div class="col-3">
+                <p> <span class="h6">Fees paid:  </span>  {{trainingDetailsObj.fees_paid}}</p>
+              </div>
+              <div class="col-3">
+                <p> <span class="h6">Sponsorship:  </span>  {{trainingDetailsObj.sponsorship}}</p>
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <div class="col-3">
+                <p> <span class="h6">Venue:  </span>  {{trainingDetailsObj.venue}}</p>
+              </div>
+              <div class="col-3">
+                <p> <span class="h6">Staff ID:  </span>  {{trainingDetailsObj.staff_id}}</p>
+              </div>
+              <div class="col-3">
+                <p> <span class="h6">Type of training:  </span>  {{trainingDetailsObj.typeOfTraining}}</p>
+              </div>
+              <div class="col-3">
+                <p> <span class="h6">Category :  </span>  {{trainingDetailsObj.category}}</p>
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <a href="{{trainingDetailsObj.certificate}}" target="_blank" style="text-decoration: none;">Show certificate</a>
+            </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

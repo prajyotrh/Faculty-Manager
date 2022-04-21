@@ -1,0 +1,325 @@
+<div class="container-fluid m-0 p-0" style="min-height: 100vh;">
+
+  <!-- heading -->
+  <div class="mt-3 mb-3">
+      <h4 class="text-muted text-warning"> Student Section</h4>
+      <hr>
+  </div>
+
+  <!-- first row -->
+  <div class="row pe-2 mt-3">
+      <div class="col-sm-4 text-center">
+          <a href="" style="text-decoration: none;" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+              <div class="card shadow">
+                  <div class="card-body">
+                      <h6>Add New Student</h6>
+                      <h5>+</h5>
+                  </div>
+              </div>
+          </a>
+      </div>
+      <div class="col-sm-4 text-center">
+          <a style="text-decoration: none;" >
+              <div class="card shadow">
+                  <div class="card-body">
+                      <h6 class="text-danger">Total Students</h6>
+                      <h5>{{allStudents.length}}</h5>
+                  </div>
+              </div>
+          </a>
+      </div>
+  </div>
+
+  <!-- second row -->
+  <div class="row pe-2 mt-3">
+    <div class="col-sm-12 text-center">
+      <div>
+        <div class="card shadow">
+          <div class="card-body">
+            <h6 class="text-danger">List of Students</h6>
+            <table class="table table-hover border mt-3">
+              <thead>
+                <tr>
+                  <th scope="col">ID</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Mobile</th>
+                  <th scope="col">Department</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let student of allStudents">
+                  <td>{{student.studentId}}</td>
+                  <td>{{student.studentName}}</td>
+                  <td>{{student.studentEmail}}</td>
+                  <td>{{student.studentMobile}}</td>
+                  <td>{{student.department}}</td>
+                  <td>
+                      <button type="button" class="btn btn-outline-secondary me-2" (click)="getStudent(student)" data-bs-toggle="modal" data-bs-target="#viewModal">View</button>
+                      <button type="button" class="btn btn-outline-primary me-2" (click)="getStudent(student)" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
+                      <button type="button" class="btn btn-outline-danger" (click)="deleteStudent(student)">Delete</button>
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add student -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+  <div class="offcanvas-header">
+    <h5 id="offcanvasRightLabel">Add Student</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" id = "closeButton"></button>
+  </div>
+  <div class="offcanvas-body">
+    <form [formGroup]="studentDetailsForm" (ngSubmit)="addStudent()">
+      <div class="form-floating mb-2">
+        <input type="text" class="form-control" formControlName="studentName">
+        <label for="floatingInput">Full name</label>
+        <div *ngIf="studentDetailsForm.get('studentName')?.invalid && (studentDetailsForm.get('studentName')?.dirty || studentDetailsForm.get('studentName')?.touched)" class="text-danger">
+          This is required field
+        </div>
+      </div>
+      <div class="form-floating mb-2">
+        <input type="text" class="form-control" formControlName="fatherName">
+        <label for="floatingInput">Fathers name</label>
+        <div *ngIf="studentDetailsForm.get('fatherName')?.invalid && (studentDetailsForm.get('fatherName')?.dirty || studentDetailsForm.get('fatherName')?.touched)" class="text-danger">
+          This is required field
+        </div>
+      </div>
+      <div class="form-floating mb-2">
+        <input type="email" class="form-control" formControlName="studentEmail" >
+        <label for="floatingInput">Email address</label>
+        <div *ngIf="studentDetailsForm.get('studentEmail')?.invalid && (studentDetailsForm.get('studentEmail')?.dirty || studentDetailsForm.get('studentEmail')?.touched)" class="text-danger">
+          Please enter valid email
+        </div>
+      </div>
+      <div class="form-floating mb-2">
+        <select class="form-select" id="gender" formControlName="gender">
+          <option disabled>Select gender</option>
+          <option *ngFor="let gender of genderList" value="{{gender}}">{{gender}}</option>
+        </select>
+        <label for="floatingSelect">Gender</label>
+        <div *ngIf="studentDetailsForm.get('gender')?.invalid && (studentDetailsForm.get('gender')?.dirty || studentDetailsForm.get('gender')?.touched)" class="text-danger">
+          This is required field
+        </div>
+      </div>
+      <div class="form-floating mb-2">
+        <input type="text" class="form-control" formControlName="studentMobile">
+        <label for="floatingInput">Student's Mobile Number</label>
+        <div *ngIf="studentDetailsForm.get('studentMobile')?.invalid && (studentDetailsForm.get('studentMobile')?.dirty || studentDetailsForm.get('studentMobile')?.touched)" class="text-danger">
+          Please enter valid mobile number
+        </div>
+      </div>
+      <div class="form-floating mb-2">
+        <input type="text" class="form-control" formControlName="parentMobile">
+        <label for="floatingInput">Parents Mobile Number</label>
+        <div *ngIf="studentDetailsForm.get('parentMobile')?.invalid && (studentDetailsForm.get('parentMobile')?.dirty || studentDetailsForm.get('parentMobile')?.touched)" class="text-danger">
+          Please enter valid mobile number
+        </div>
+      </div>
+      <div class="form-floating mb-2">
+        <input type="text" class="form-control" length="12" formControlName="adhar">
+        <label for="floatingInput">Adhar number</label>
+        <div *ngIf="studentDetailsForm.get('adhar')?.invalid && (studentDetailsForm.get('adhar')?.dirty || studentDetailsForm.get('adhar')?.touched)" class="text-danger">
+          Please enter valid adhar card number
+        </div>
+      </div>
+      <div class="form-floating mb-2">
+        <input type="date" class="form-control" formControlName="birthday">
+        <label for="floatingInput">Birth date</label>
+        <div *ngIf="studentDetailsForm.get('birthday')?.invalid && (studentDetailsForm.get('birthday')?.dirty || studentDetailsForm.get('birthday')?.touched)" class="text-danger">
+          This is required field
+        </div>
+      </div>
+      <div class="form-floating mb-2">
+        <select class="form-select" id="department" formControlName="department">
+          <option disabled>Select Department</option>
+          <option *ngFor="let department of departmentList" value="{{department}}">{{department}}</option>
+        </select>
+        <label for="floatingSelect">Department</label>
+        <div *ngIf="studentDetailsForm.get('department')?.invalid && (studentDetailsForm.get('department')?.dirty || studentDetailsForm.get('department')?.touched)" class="text-danger">
+          This is required field
+        </div>
+      </div>
+      <div class="form-floating mb-2">
+        <input type="number" class="form-control" formControlName="passingYear">
+        <label for="floatingInput">Passing year</label>
+        <div *ngIf="studentDetailsForm.get('passingYear')?.invalid && (studentDetailsForm.get('passingYear')?.dirty || studentDetailsForm.get('passingYear')?.touched)" class="text-danger">
+          This is required field
+        </div>
+      </div>
+      <div class="form-floating mb-2">
+        <button class="btn btn-outline-primary" type="submit" [disabled]="studentDetailsForm.invalid">Submit</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+  <!-- View Student -->
+<div class="modal fade" id="viewModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-danger" id="exampleModalLabel" >Student Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+        <table class="table">
+          <tbody>
+            <tr>
+              <th scope="row">ID</th>
+              <td>{{studentDetailsForm.get('studentId')?.value}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Student Name</th>
+              <td>{{studentDetailsForm.get('studentName')?.value}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Father's Name</th>
+              <td>{{studentDetailsForm.get('fatherName')?.value}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Email</th>
+              <td>{{studentDetailsForm.get('studentEmail')?.value}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Student Mobile</th>
+              <td>{{studentDetailsForm.get('studentMobile')?.value}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Parent's Mobile</th>
+              <td>{{studentDetailsForm.get('parentMobile')?.value}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Gender</th>
+              <td>{{studentDetailsForm.get('gender')?.value}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Adhar</th>
+              <td>{{studentDetailsForm.get('adhar')?.value}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Birth date</th>
+              <td>{{studentDetailsForm.get('birthday')?.value}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Passing Year</th>
+              <td>{{studentDetailsForm.get('passingYear')?.value}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Department</th>
+              <td>{{studentDetailsForm.get('department')?.value}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <!-- Edit student -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Student Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeModal"></button>
+      </div>
+
+      <form [formGroup]="studentDetailsForm" (ngSubmit)="updateStudent()"class="p-4">
+        <div class="form-floating mb-2">
+          <input type="text" class="form-control" formControlName="studentName" value="studentDetailsForm.get('studentName').value">
+          <label for="floatingInput">Full name</label>
+          <div *ngIf="studentDetailsForm.get('studentName')?.invalid && (studentDetailsForm.get('studentName')?.dirty || studentDetailsForm.get('studentName')?.touched)" class="text-danger">
+            This is required field
+          </div>
+        </div>
+        <div class="form-floating mb-2">
+          <input type="text" class="form-control" formControlName="fatherName" value="studentDetailsForm.get('fatherName).value">
+          <label for="floatingInput">Fathers name</label>
+          <div *ngIf="studentDetailsForm.get('fatherName')?.invalid && (studentDetailsForm.get('fatherName')?.dirty || studentDetailsForm.get('fatherName')?.touched)" class="text-danger">
+            This is required field
+          </div>
+        </div>
+        <div class="form-floating mb-2">
+          <input type="email" class="form-control" formControlName="studentEmail" value="studentDetailsForm.get('studentEmail').value">
+          <label for="floatingInput">Email address</label>
+          <div *ngIf="studentDetailsForm.get('studentEmail')?.invalid && (studentDetailsForm.get('studentEmail')?.dirty || studentDetailsForm.get('studentEmail')?.touched)" class="text-danger">
+            Please enter valid email
+          </div>
+        </div>
+        <div class="form-floating mb-2">
+          <select class="form-select" id="gender" formControlName="gender" value="studentDetailsForm.get('gender).value">
+            <option disabled>Select gender</option>
+            <option *ngFor="let gender of genderList" value="{{gender}}">{{gender}}</option>
+          </select>
+          <label for="floatingSelect">Gender</label>
+          <div *ngIf="studentDetailsForm.get('gender')?.invalid && (studentDetailsForm.get('gender')?.dirty || studentDetailsForm.get('gender')?.touched)" class="text-danger">
+            This is required field
+          </div>
+        </div>
+        <div class="form-floating mb-2">
+          <input type="text" class="form-control" formControlName="studentMobile" value="studentDetailsForm.get('studentMobile').value">
+          <label for="floatingInput">Student's Mobile Number</label>
+          <div *ngIf="studentDetailsForm.get('studentMobile')?.invalid && (studentDetailsForm.get('studentMobile')?.dirty || studentDetailsForm.get('studentMobile')?.touched)" class="text-danger">
+            Please enter valid mobile number
+          </div>
+        </div>
+        <div class="form-floating mb-2">
+          <input type="text" class="form-control" formControlName="parentMobile" value="studentDetailsForm.get('parentMobile).value">
+          <label for="floatingInput">Parent's Mobile Number</label>
+          <div *ngIf="studentDetailsForm.get('parentMobile')?.invalid && (studentDetailsForm.get('parentMobile')?.dirty || studentDetailsForm.get('parentMobile')?.touched)" class="text-danger">
+            Please enter valid mobile number
+          </div>
+        </div>
+        <div class="form-floating mb-2">
+          <input type="text" class="form-control" length="12" formControlName="adhar" value="studentDetailsForm.get('adhar).value">
+          <label for="floatingInput">Adhar number</label>
+          <div *ngIf="studentDetailsForm.get('adhar')?.invalid && (studentDetailsForm.get('adhar')?.dirty || studentDetailsForm.get('adhar')?.touched)" class="text-danger">
+            Please enter valid adhar card number
+          </div>
+        </div>
+        <div class="form-floating mb-2">
+          <input type="date" class="form-control" formControlName="birthday" value="studentDetailsForm.get('birthday).value">
+          <label for="floatingInput">Birth date</label>
+          <div *ngIf="studentDetailsForm.get('birthday')?.invalid && (studentDetailsForm.get('birthday')?.dirty || studentDetailsForm.get('birthday')?.touched)" class="text-danger">
+            This is required field
+          </div>
+        </div>
+        <div class="form-floating mb-2">
+          <select class="form-select" id="department" formControlName="department" value="studentDetailsForm.get('department).value">
+            <option disabled>Select Department</option>
+            <option *ngFor="let department of departmentList" value="{{department}}">{{department}}</option>
+          </select>
+          <label for="floatingSelect">Department</label>
+          <div *ngIf="studentDetailsForm.get('department')?.invalid && (studentDetailsForm.get('department')?.dirty || studentDetailsForm.get('department')?.touched)" class="text-danger">
+            This is required field
+          </div>
+        </div>
+        <div class="form-floating mb-2">
+          <input type="number" class="form-control" formControlName="passingYear" value="studentDetailsForm.get('passingYear).value">
+          <label for="floatingInput">Passing year</label>
+          <div *ngIf="studentDetailsForm.get('passingYear')?.invalid && (studentDetailsForm.get('passingYear')?.dirty || studentDetailsForm.get('passingYear')?.touched)" class="text-danger">
+            This is required field
+          </div>
+        </div>
+        <div class="form-floating mb-2">
+          <button class="btn btn-outline-primary" type="submit" [disabled]="studentDetailsForm.invalid">Update</button>
+        </div>
+      </form>
+
+
+    </div>
+  </div>
+</div>
+
+</div>

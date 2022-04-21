@@ -1,0 +1,300 @@
+<div class="container-fluid m-0 p-0" style="min-height: 100vh;">
+
+  <!-- heading -->
+  <div class="mt-3 mb-3">
+      <h4 class="text-muted text-warning"> Faculty Section</h4>
+      <hr>
+  </div>
+
+  <!-- first row -->
+  <div class="row pe-2 mt-3">
+      <div class="col-sm-4 text-center">
+          <a href="" style="text-decoration: none;" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+              <div class="card shadow">
+                  <div class="card-body">
+                      <h6>Add New Faculty</h6>
+                      <h5>+</h5>
+                  </div>
+              </div>
+          </a>
+      </div>
+      <div class="col-sm-4 text-center">
+          <a style="text-decoration: none;" >
+              <div class="card shadow">
+                  <div class="card-body">
+                      <h6 class="text-danger">Total Faculty</h6>
+                      <h5>{{allFaculty.length}}</h5>
+                  </div>
+              </div>
+          </a>
+      </div>
+  </div>
+
+  <!-- second row -->
+  <div class="row pe-2 mt-3">
+    <div class="col-sm-12 text-center">
+      <div>
+        <div class="card shadow">
+          <div class="card-body">
+            <h6 class="text-danger">List of Faculties</h6>
+            <table class="table table-hover border mt-3">
+              <thead>
+                <tr>
+                  <th scope="col">ID</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Mobile</th>
+                  <th scope="col">Department</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let faculty of allFaculty">
+                  <td>{{faculty.facultyId}}</td>
+                  <td>{{faculty.name}}</td>
+                  <td>{{faculty.email}}</td>
+                  <td>{{faculty.mobile}}</td>
+                  <td>{{faculty.department}}</td>
+                  <td>
+                      <button type="button" class="btn btn-outline-secondary me-2" (click)="getFaculty(faculty)" data-bs-toggle="modal" data-bs-target="#viewModal">View</button>
+                      <button type="button" class="btn btn-outline-primary me-2" (click)="getFaculty(faculty)" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
+                      <button type="button" class="btn btn-outline-danger" (click)="deleteFaculty(faculty)">Delete</button>
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add faculty -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+  <div class="offcanvas-header">
+    <h5 id="offcanvasRightLabel">Add Faculty</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" id = "closeButton"></button>
+  </div>
+  <div class="offcanvas-body">
+    <form [formGroup]="facultyDetailsForm" (ngSubmit)="addFaculty()">
+      <div class="form-floating mb-2">
+        <input type="text" class="form-control" formControlName="name">
+        <label for="floatingInput">Full name</label>
+        <div *ngIf="facultyDetailsForm.get('name')?.invalid && (facultyDetailsForm.get('name')?.dirty || facultyDetailsForm.get('name')?.touched)" class="text-danger">
+          This is required field
+        </div>
+      </div>
+      <div class="form-floating mb-2">
+        <input type="email" class="form-control" formControlName="email" >
+        <label for="floatingInput">Email address</label>
+        <div *ngIf="facultyDetailsForm.get('email')?.invalid && (facultyDetailsForm.get('email')?.dirty || facultyDetailsForm.get('email')?.touched)" class="text-danger">
+          Please enter valid email
+        </div>
+      </div>
+      <div class="form-floating mb-2">
+        <select class="form-select" id="gender" formControlName="gender">
+          <option disabled>Select gender</option>
+          <option *ngFor="let gender of genderList" value="{{gender}}">{{gender}}</option>
+        </select>
+        <label for="floatingSelect">Gender</label>
+        <div *ngIf="facultyDetailsForm.get('gender')?.invalid && (facultyDetailsForm.get('gender')?.dirty || facultyDetailsForm.get('gender')?.touched)" class="text-danger">
+          This is required field
+        </div>
+      </div>
+      <div class="form-floating mb-2">
+        <input type="text" class="form-control" formControlName="mobile">
+        <label for="floatingInput">Mobile Number</label>
+        <div *ngIf="facultyDetailsForm.get('mobile')?.invalid && (facultyDetailsForm.get('mobile')?.dirty || facultyDetailsForm.get('mobile')?.touched)" class="text-danger">
+          Please enter valid mobile number
+        </div>
+      </div>
+      <div class="form-floating mb-2">
+        <input type="text" class="form-control" length="12" formControlName="adhar">
+        <label for="floatingInput">Adhar number</label>
+        <div *ngIf="facultyDetailsForm.get('adhar')?.invalid && (facultyDetailsForm.get('adhar')?.dirty || facultyDetailsForm.get('adhar')?.touched)" class="text-danger">
+          Please enter valid adhar card number
+        </div>
+      </div>
+      <div class="form-floating mb-2">
+        <input type="date" class="form-control" formControlName="birthday">
+        <label for="floatingInput">Birth date</label>
+        <div *ngIf="facultyDetailsForm.get('birthday')?.invalid && (facultyDetailsForm.get('birthday')?.dirty || facultyDetailsForm.get('birthday')?.touched)" class="text-danger">
+          This is required field
+        </div>
+      </div>
+      <div class="form-floating mb-2">
+        <select class="form-select" id="department" formControlName="department">
+          <option disabled>Select Department</option>
+          <option *ngFor="let department of departmentList" value="{{department}}">{{department}}</option>
+        </select>
+        <label for="floatingSelect">Department</label>
+        <div *ngIf="facultyDetailsForm.get('department')?.invalid && (facultyDetailsForm.get('department')?.dirty || facultyDetailsForm.get('department')?.touched)" class="text-danger">
+          This is required field
+        </div>
+      </div>
+      <div class="form-floating mb-2">
+        <input type="number" class="form-control" formControlName="joiningYear">
+        <label for="floatingInput">Joining year</label>
+        <div *ngIf="facultyDetailsForm.get('joiningYear')?.invalid && (facultyDetailsForm.get('joiningYear')?.dirty || facultyDetailsForm.get('joiningYear')?.touched)" class="text-danger">
+          This is required field
+        </div>
+      </div>
+      <div class="form-floating mb-2">
+        <input type="password" class="form-control" formControlName="password">
+        <label for="floatingInput">Create Password</label>
+        <div *ngIf="facultyDetailsForm.get('password')?.invalid && (facultyDetailsForm.get('password')?.dirty || facultyDetailsForm.get('password')?.touched)" class="text-danger">
+          Please enter valid password
+        </div>
+      </div>
+      <div class="form-floating mb-2">
+        <button class="btn btn-outline-primary" type="submit" [disabled]="facultyDetailsForm.invalid">Submit</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+  <!-- View faculty -->
+<div class="modal fade" id="viewModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-danger" id="exampleModalLabel" >Faculty Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+        <table class="table">
+          <tbody>
+            <tr>
+              <th scope="row">ID</th>
+              <td>{{facultyDetailsForm.get('faculty_id')?.value}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Name</th>
+              <td>{{facultyDetailsForm.get('name')?.value}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Email</th>
+              <td>{{facultyDetailsForm.get('email')?.value}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Mobile</th>
+              <td>{{facultyDetailsForm.get('mobile')?.value}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Gender</th>
+              <td>{{facultyDetailsForm.get('gender')?.value}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Adhar</th>
+              <td>{{facultyDetailsForm.get('adhar')?.value}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Birth date</th>
+              <td>{{facultyDetailsForm.get('birthday')?.value}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Joining Year</th>
+              <td>{{facultyDetailsForm.get('joiningYear')?.value}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Department</th>
+              <td>{{facultyDetailsForm.get('department')?.value}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <!-- Edit faculty -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Faculty Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeModal"></button>
+      </div>
+      <form [formGroup]="facultyDetailsForm" (ngSubmit)="updateFaculty()" class="p-4">
+        <div class="form-floating mb-2">
+          <input type="text" class="form-control" formControlName="name" value="facultyDetailsForm.get('name').value">
+          <label for="floatingInput">Full name</label>
+          <div *ngIf="facultyDetailsForm.get('name')?.invalid && (facultyDetailsForm.get('name')?.dirty || facultyDetailsForm.get('name')?.touched)" class="text-danger">
+            This is required field
+          </div>
+        </div>
+        <div class="form-floating mb-2">
+          <input type="email" class="form-control" formControlName="email" value="{{facultyObj.email}}" value="facultyDetailsForm.get('email').value">
+          <label for="floatingInput">Email address</label>
+          <div *ngIf="facultyDetailsForm.get('email')?.invalid && (facultyDetailsForm.get('email')?.dirty || facultyDetailsForm.get('email')?.touched)" class="text-danger">
+            Please enter valid email
+          </div>
+        </div>
+        <div class="form-floating mb-2">
+          <select class="form-select" id="gender" formControlName="gender"  value="facultyDetailsForm.get('gender').value">
+            <option disabled>Select gender</option>
+            <option *ngFor="let gender of genderList" value="{{gender}}">{{gender}}</option>
+          </select>
+          <label for="floatingSelect">Gender</label>
+          <div *ngIf="facultyDetailsForm.get('gender')?.invalid && (facultyDetailsForm.get('gender')?.dirty || facultyDetailsForm.get('gender')?.touched)" class="text-danger">
+            This is required field
+          </div>
+        </div>
+        <div class="form-floating mb-2">
+          <input type="text" class="form-control" formControlName="mobile" value="facultyDetailsForm.get('mobile).value">
+          <label for="floatingInput">Mobile Number</label>
+          <div *ngIf="facultyDetailsForm.get('mobile')?.invalid && (facultyDetailsForm.get('mobile')?.dirty || facultyDetailsForm.get('mobile')?.touched)" class="text-danger">
+            Please enter valid mobile number
+          </div>
+        </div>
+        <div class="form-floating mb-2">
+          <input type="text" class="form-control" length="12" formControlName="adhar" value="facultyDetailsForm.get('adhar').value">
+          <label for="floatingInput">Adhar number</label>
+          <div *ngIf="facultyDetailsForm.get('adhar')?.invalid && (facultyDetailsForm.get('adhar')?.dirty || facultyDetailsForm.get('adhar')?.touched)" class="text-danger">
+            Please enter valid adhar card number
+          </div>
+        </div>
+        <div class="form-floating mb-2">
+          <input type="date" class="form-control" formControlName="birthday" value="facultyDetailsForm.get('birthday').value">
+          <label for="floatingInput">Birth date</label>
+          <div *ngIf="facultyDetailsForm.get('birthday')?.invalid && (facultyDetailsForm.get('birthday')?.dirty || facultyDetailsForm.get('birthday')?.touched)" class="text-danger">
+            This is required field
+          </div>
+        </div>
+        <div class="form-floating mb-2">
+          <select class="form-select" id="department" formControlName="department" value="facultyDetailsForm.get('department).value">
+            <option disabled>Select Department</option>
+            <option *ngFor="let department of departmentList" value="{{department}}">{{department}}</option>
+          </select>
+          <label for="floatingSelect">Department</label>
+          <div *ngIf="facultyDetailsForm.get('department')?.invalid && (facultyDetailsForm.get('department')?.dirty || facultyDetailsForm.get('department')?.touched)" class="text-danger">
+            This is required field
+          </div>
+        </div>
+        <div class="form-floating mb-2">
+          <input type="number" class="form-control" formControlName="joiningYear" value="facultyDetailsForm.get('joiningYear).value">
+          <label for="floatingInput">Joining year</label>
+          <div *ngIf="facultyDetailsForm.get('joiningYear')?.invalid && (facultyDetailsForm.get('joiningYear')?.dirty || facultyDetailsForm.get('joiningYear')?.touched)" class="text-danger">
+            This is required field
+          </div>
+        </div>
+        <div class="form-floating mb-2">
+          <input type="password" class="form-control" formControlName="password" value="facultyDetailsForm.get('password).value">
+          <label for="floatingInput">Create Password</label>
+          <div *ngIf="facultyDetailsForm.get('password')?.invalid && (facultyDetailsForm.get('password')?.dirty || facultyDetailsForm.get('password')?.touched)" class="text-danger">
+            Please enter valid password
+          </div>
+        </div>
+        <div class="form-floating mb-2">
+          <button class="btn btn-outline-primary" type="submit" [disabled]="facultyDetailsForm.invalid">Update</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+</div>
